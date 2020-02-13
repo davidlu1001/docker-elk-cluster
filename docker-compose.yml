@@ -1,7 +1,7 @@
 version: "3.2"
 
 services:
-  elasticsearch01:
+  elasticsearch:
     build:
       context: elasticsearch/
       args:
@@ -18,10 +18,10 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
-      - node.name=elasticsearch01
+      - node.name=elasticsearch
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=elasticsearch02,elasticsearch03
-      - cluster.initial_master_nodes=elasticsearch01,elasticsearch02,elasticsearch03
+      - cluster.initial_master_nodes=elasticsearch,elasticsearch02,elasticsearch03
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
       - ELASTIC_PASSWORD=changeme
@@ -42,7 +42,7 @@ services:
       - node.name=elasticsearch02
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=elasticsearch02,elasticsearch03
-      - cluster.initial_master_nodes=elasticsearch01,elasticsearch02,elasticsearch03
+      - cluster.initial_master_nodes=elasticsearch,elasticsearch02,elasticsearch03
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
     ulimits:
@@ -68,7 +68,7 @@ services:
       - node.name=elasticsearch03
       - cluster.name=es-docker-cluster
       - discovery.seed_hosts=elasticsearch02,elasticsearch03
-      - cluster.initial_master_nodes=elasticsearch01,elasticsearch02,elasticsearch03
+      - cluster.initial_master_nodes=elasticsearch,elasticsearch02,elasticsearch03
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
     volumes:
@@ -109,7 +109,7 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch01
+      - elasticsearch
 
   kibana:
     build:
@@ -126,7 +126,7 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch01
+      - elasticsearch
 
 networks:
   elk:
